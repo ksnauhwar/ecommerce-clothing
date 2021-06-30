@@ -1,0 +1,13 @@
+.collection-preview{
+    .title{
+        font-family:"Open Sans Condensed";
+        font-size:2rem;
+        font-weight: 300;
+    }
+    .items{
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(25rem,1fr));
+        grid-gap:2rem;
+        padding:1rem 0;
+    }
+}
