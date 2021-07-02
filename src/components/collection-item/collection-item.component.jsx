@@ -3,7 +3,7 @@ import './collection-item.styles.scss';
 
 function CollectionItem({imageUrl,id,name,price}){
     return (<div className="collection-item">
-        <div className="collection-item__img" style={{backgroundImage:`url(${imageUrl})`}}></div>
+        <img className="collection-item__img" src={imageUrl}></img>
         <h3 className="collection-item__name">{name}</h3>
         <h3 className="collection-item__price"><span>$</span>{price}</h3>
 

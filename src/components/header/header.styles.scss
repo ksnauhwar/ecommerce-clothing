@@ -1,0 +1,23 @@
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding-bottom:2.5rem;
+    .logo{
+        width:7.5rem;
+        height:7.5rem;
+    }
+    .navigation{
+        &__link{
+            text-decoration:none;
+            text-transform:uppercase;
+            font-size:1.6rem;
+            letter-spacing:1px;
+            color:#777;
+            padding:1rem;
+            font-family: "Open Sans Condensed";
+        }
+
+    }
+}

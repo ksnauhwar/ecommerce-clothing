@@ -1,0 +1,23 @@
+.custom-button{
+    padding:1rem 3.5rem;
+    border-radius:3px;
+    
+    border:1px solid #000;
+
+    font-family: "Open Sans Condensed";
+    font-size:1.4rem;
+
+    transition: all .3s;
+
+    background-color: #000;
+    color:#eee;
+
+    
+    &:hover{
+        transform:translateY(-2px);
+        background-color:transparent;
+        color:#000;
+    }
+}
+
+

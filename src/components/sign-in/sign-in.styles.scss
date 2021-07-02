@@ -1,0 +1,45 @@
+.sign-in{
+    width:40vw;
+    font-family: inherit;
+
+    .heading-secondary{
+        margin-bottom: 2rem;
+    }
+
+    .heading-tertiary{
+        margin-bottom:4rem;
+    }
+
+    input{
+        display:block;
+        width:70%;
+        padding:1rem;
+        border:none;
+        border-bottom:2.5px solid #eee;
+        outline:none;
+       font-family: "Open Sans Condensed";
+       font-size:1.6rem;
+    }
+
+    .input::placeholder{
+        font-size:1.5rem;
+    }
+
+    .input:placeholder-shown + .label{
+       opacity:0;
+       visibility:hidden;
+       
+       transform:translateY(-3.5rem);
+    }
+
+    .label{
+        display:block;
+        padding:1rem;
+        font-size:1.3rem;
+        font-family:inherit;
+        font-family: "Open Sans Condensed";
+        opacity:1;
+        transition:all .3s;
+    }
+
+}

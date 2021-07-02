@@ -7,9 +7,9 @@ function MenuItem({title,imageUrl,history,linkUrl,match}){
         onClick={()=>history.push(`${match.url}${linkUrl}`)}>
         <div className="background-image" style={{ backgroundImage:`url(${imageUrl})`} } />
                 <div className="content">
-                    <h2 className="title">
+                    <h4 className="title">
                         {title}
-                    </h2>
+                    </h4>
                     <p className="shop">Shop now</p>
                 </div>
             </div>);
