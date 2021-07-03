@@ -2,7 +2,7 @@
     padding:1rem 3.5rem;
     border-radius:3px;
     
-    border:1px solid #000;
+    border:1px solid transparent;
 
     font-family: "Open Sans Condensed";
     font-size:1.4rem;
@@ -17,6 +17,18 @@
         transform:translateY(-2px);
         background-color:transparent;
         color:#000;
+        border:1px solid #000;
+    }
+
+    &.btn-google{
+        background-color:#4285f4;
+        border:1px solid transparent;
+        color:#eee;
+    
+        &:hover{
+            background-color:#357ae8;
+            color:#eee;
+        }
     }
 }
 

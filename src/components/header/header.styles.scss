@@ -9,10 +9,13 @@
         height:7.5rem;
     }
     .navigation{
+        display: flex;
+        justify-content: space-between;
+        width:20vw;
         &__link{
             text-decoration:none;
             text-transform:uppercase;
-            font-size:1.6rem;
+            font-size:1.8rem;
             letter-spacing:1px;
             color:#777;
             padding:1rem;
