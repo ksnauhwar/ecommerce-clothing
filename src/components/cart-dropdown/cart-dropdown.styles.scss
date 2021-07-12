@@ -1,0 +1,21 @@
+.cart-dropdown{
+    padding:2rem;
+    border:1px solid #000;
+    width: 25rem;
+    height:35rem;
+    z-index:10;
+    background-color: #fff;
+
+    position:absolute;
+
+    top:7rem;
+    right:0;
+
+    display:grid;
+    grid-template-rows:1fr max-content;
+    grid-gap:1.5rem;
+
+    &__items{
+        background-color:orange;
+    }
+}
