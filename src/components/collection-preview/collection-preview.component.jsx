@@ -8,8 +8,8 @@ function CollectionPreview({title,items}){
         <h4 className="title">{title}</h4>
         <div className="items">
             {
-                items.slice(0,4).map(({id,...otherItemProps}) =>(
-                     <CollectionItem {...otherItemProps} key={id}/>   
+                items.slice(0,4).map(item =>(
+                     <CollectionItem item={item} key={item.id}/>   
                 ))
             }
         </div>
