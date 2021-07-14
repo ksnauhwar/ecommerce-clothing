@@ -1,0 +1,28 @@
+.cart-item{
+    display:grid;
+    grid-template-rows:max-content;
+    grid-template-columns:repeat(2,1fr);
+    grid-gap:2rem;
+
+    img{
+        display:block;
+        width:10rem;
+        height:10rem;
+    }
+
+    &__details{
+        display:flex;
+        flex-direction:column;
+        align-content:center;
+        justify-content:center;
+    }
+
+    &__name,&__quantity-price{
+        font-family:'Open Sans Condensed';
+        font-size:1.6rem;
+    }
+
+    &__quantity-price{
+        justify-self:start;
+    }
+}
