@@ -1,8 +1,10 @@
 import {createStore,applyMiddleware} from 'redux';
 import logger from 'redux-logger';
+import loggerMiddleware from './addOns/logger.middleware';
 import rootReducer from './root-reducer';
 
-const middlewares = [logger];
+//const middlewares = [logger];
+const middlewares = [loggerMiddleware];
 const store = createStore(rootReducer,applyMiddleware(...middlewares));
 
 
