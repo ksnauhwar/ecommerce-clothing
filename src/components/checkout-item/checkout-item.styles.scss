@@ -1,0 +1,45 @@
+.checkout-item{
+    display:flex;
+    align-items:center;
+    padding:1rem 0;
+    border-top:2px solid #eee;
+
+    &:last-of-type{
+        border-bottom:2px solid #eee;
+    }
+
+    &__text,.quantity,.price{
+        font-size:1.6rem;
+        font-family:'Open Sans Condensed';
+        text-transform:uppercase;
+
+    }
+
+    &__image,&__text,.quantity,.price{
+        width:23%;
+    }
+
+    .quantity{
+        text-align:left;
+
+        span{
+            display:inline-block;
+            padding:0 1rem;
+            cursor:pointer;
+        }
+    }
+
+    &__image{
+        img{
+            display:block;
+            width:80%;
+            height:auto;
+        }
+    }
+
+    .remove{
+      text-align:right;
+      font-size:1.8rem;
+      cursor:pointer;
+    }
+}

@@ -1,0 +1,29 @@
+.checkout-page{   
+    width:60vw;
+    padding:3rem;
+    margin:0 auto;
+
+    &__header{
+        display:flex;
+        padding:2rem 0;
+
+        .header-text{
+            font-size:1.6rem;
+            font-family:'Open Sans Condensed';
+            width:23%;
+        }
+
+        .remove{          
+            font-size:1.6rem;
+            font-family:'Open Sans Condensed'; 
+            text-align: right;
+        }
+    }
+
+    &__footer{
+        text-align:right;
+        font-size:4rem;
+        font-family:'Open Sans Condensed';
+        padding:2rem 0;
+    }
+}
