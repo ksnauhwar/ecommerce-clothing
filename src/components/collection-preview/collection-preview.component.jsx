@@ -1,11 +1,12 @@
 import React from 'react';
+import { withRouter,Link } from 'react-router-dom';
 import './collection-preview.styles.scss';
 import CollectionItem from '../collection-item/collection-item.component';
 
 
-function CollectionPreview({title,items}){
+function CollectionPreview({title,items,match,routeName}){
     return (<div className="collection-preview">
-        <h4 className="title">{title}</h4>
+        <Link to={`${match.path}/${routeName}`}><h4 className="title">{title}</h4></Link>
         <div className="items">
             {
                 items.slice(0,4).map(item =>(
@@ -16,4 +17,4 @@ function CollectionPreview({title,items}){
     </div>);
 }
 
-export default CollectionPreview;
+export default withRouter(CollectionPreview);
