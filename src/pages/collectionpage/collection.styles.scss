@@ -1,6 +1,15 @@
-.heading-secondary{
-    font-family:'Open Sans Condensed';
-    font-size:2rem;
-    text-transform:uppercase;
-    text-align:center;
+.collection {
+  .heading-secondary {
+    font-family: "Open Sans Condensed";
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  &__items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    grid-gap: 2rem;
+    padding-top: 2rem;
+  }
 }
