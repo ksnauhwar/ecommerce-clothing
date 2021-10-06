@@ -2,18 +2,17 @@ import React from "react";
 import { connect } from "react-redux";
 import { Route } from "react-router-dom";
 
-import CollectionOverview from "../../components/collection-overview/collection-overview.component";
-import Collection from "../collectionpage/collection.component";
-import { firestore, getShopCollections } from "../../firebase/firebase.util";
-import { updateCollection } from "../../redux/shop/shop.actions";
+import CollectionOverviewContainer from "../../components/collection-overview/collection-overview.container";
+import CollectionContainer from "../collectionpage/collection.container";
+import { fetchCollectionsAsync } from "../../redux/shop/shop.actions";
 
 class ShopPage extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   componentDidMount() {
-    const collectionRef = firestore.collection("collections");
-    collectionRef.onSnapshot((snapshot) => {
-      const collections = getShopCollections(snapshot);
-      this.props.dispatch(updateCollection(collections));
-    });
+    const { fetchCollectionsAsync } = this.props;
+    fetchCollectionsAsync();
   }
   render() {
     const { match } = this.props;
@@ -22,12 +21,21 @@ class ShopPage extends React.Component {
         <Route
           exact
           path={`${match.path}`}
-          component={CollectionOverview}
+          component={CollectionOverviewContainer}
         ></Route>
-        <Route path={`${match.path}/:collectionId`} component={Collection} />
+        <Route
+          path={`${match.path}/:collectionId`}
+          component={CollectionContainer}
+        />
       </div>
     );
   }
 }
 
-export default connect(null)(ShopPage);
+const mapDispatchToProps = function (dispatch) {
+  return {
+    fetchCollectionsAsync: () => dispatch(fetchCollectionsAsync()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ShopPage);
