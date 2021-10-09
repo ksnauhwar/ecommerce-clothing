@@ -1,16 +1,16 @@
 import { firestore, getShopCollections } from "../../firebase/firebase.util";
 import SHOP_ACTION_TYPES from "./shop.types";
 
-const fetchCollectionsStart = () => ({
+export const fetchCollectionsStart = () => ({
   type: SHOP_ACTION_TYPES.FETCH_COLLECTIONS_START,
 });
 
-const fetchCollectionsSuccess = (collections) => ({
+export const fetchCollectionsSuccess = (collections) => ({
   type: SHOP_ACTION_TYPES.FETCH_COLLECTIONS_SUCCESS,
   payload: collections,
 });
 
-const fetchCollectionFailure = (errorMessage) => ({
+export const fetchCollectionFailure = (errorMessage) => ({
   type: SHOP_ACTION_TYPES.FETCH_COLLECTIONS_FAILURE,
   payload: errorMessage,
 });

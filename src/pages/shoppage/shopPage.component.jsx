@@ -4,15 +4,15 @@ import { Route } from "react-router-dom";
 
 import CollectionOverviewContainer from "../../components/collection-overview/collection-overview.container";
 import CollectionContainer from "../collectionpage/collection.container";
-import { fetchCollectionsAsync } from "../../redux/shop/shop.actions";
+import { fetchCollectionsStart } from "../../redux/shop/shop.actions";
 
 class ShopPage extends React.Component {
   constructor(props) {
     super(props);
   }
   componentDidMount() {
-    const { fetchCollectionsAsync } = this.props;
-    fetchCollectionsAsync();
+    const { fetchCollectionsStart } = this.props;
+    fetchCollectionsStart();
   }
   render() {
     const { match } = this.props;
@@ -34,7 +34,7 @@ class ShopPage extends React.Component {
 
 const mapDispatchToProps = function (dispatch) {
   return {
-    fetchCollectionsAsync: () => dispatch(fetchCollectionsAsync()),
+    fetchCollectionsStart: () => dispatch(fetchCollectionsStart()),
   };
 };
 
