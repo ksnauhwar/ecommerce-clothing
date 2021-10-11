@@ -8,6 +8,7 @@ import CartIcon from "../cart-icon/cart-icon.component";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 
 import { selectCurrentUser } from "../../redux/user/user.selector";
+import { signOut } from "../../redux/user/user.actions";
 import { selectCartDropdownHidden } from "../../redux/cart/cart.selector";
 import {
   HeaderContainer,
@@ -16,7 +17,7 @@ import {
   NavigationLinkContainer,
 } from "./header.styles";
 
-const Header = ({ currentUser, hideCartDropdown }) => {
+const Header = ({ currentUser, hideCartDropdown, dispatch }) => {
   return (
     <HeaderContainer>
       <LogoLinkContainer to="/">
@@ -29,7 +30,7 @@ const Header = ({ currentUser, hideCartDropdown }) => {
           <NavigationLinkContainer
             as="a"
             href="#"
-            onClick={() => auth.signOut()}
+            onClick={() => dispatch(signOut())}
           >
             Sign Out
           </NavigationLinkContainer>

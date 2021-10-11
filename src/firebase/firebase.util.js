@@ -20,6 +20,15 @@ export const googleProvider = new firebase.auth.GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: "select_account" });
 export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
+export const getLoggeInUser = () => {
+  return new Promise((resolve, reject) => {
+    let unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject);
+  });
+};
+
 export const createUserAuthDocument = async (userAuth, additionalData) => {
   if (!userAuth) {
     return;

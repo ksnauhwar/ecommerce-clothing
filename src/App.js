@@ -7,6 +7,7 @@ import ShopPage from "./pages/shoppage/shopPage.component";
 import Header from "./components/header/header.component";
 import SignInSignUpPage from "./pages/sign-in-sign-up-page/sign-in-sign-up.component";
 import CheckoutPage from "./pages/checkoutpage/checkoutpage.component";
+import { persistUserSession } from "./redux/user/user.actions";
 
 import "./App.css";
 
@@ -14,24 +15,10 @@ class App extends React.Component {
   constructor(props) {
     super(props);
   }
-  unsubscribeAuth = null;
+
   componentDidMount() {
-    // this.unsubscribeAuth = auth.onAuthStateChanged(async (userAuth) => {
-    //   if (userAuth) {
-    //     const userRef = await createUserAuthDocument(userAuth);
-    //     userRef.onSnapshot((snapshot) => {
-    //       this.props.setLoggedInUser({
-    //         id: snapshot.id,
-    //         ...snapshot.data(),
-    //       });
-    //     });
-    //   } else {
-    //     this.props.setLoggedInUser(null);
-    //   }
-    // });
-  }
-  componentWillUnmount() {
-    // this.unsubscribeAuth();
+    const { persistUserSession } = this.props;
+    persistUserSession();
   }
 
   render() {
@@ -63,4 +50,8 @@ const mapStateToProps = (state) => ({
   currentUser: state.user.currentUser,
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch) => ({
+  persistUserSession: () => dispatch(persistUserSession()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

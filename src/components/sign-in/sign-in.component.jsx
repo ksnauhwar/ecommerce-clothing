@@ -2,9 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 
 import CustomButton from "../custom-button/custom-button.component";
-import { signInWithGoogle, auth } from "../../firebase/firebase.util";
 import FormInput from "../form-input/form-input.component";
-import { googleSignInStart } from "../../redux/user/user.actions";
+import {
+  googleSignInStart,
+  signInWithEmailAndPassword,
+} from "../../redux/user/user.actions";
 import "./sign-in.styles.scss";
 
 class SignIn extends React.Component {
@@ -26,15 +28,8 @@ class SignIn extends React.Component {
   async handleSubmit(event) {
     event.preventDefault();
     const { email, password } = this.state;
-    try {
-      await auth.signInWithEmailAndPassword(email, password);
-      this.setState({
-        email: "",
-        password: "",
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    const { dispatch } = this.props;
+    dispatch(signInWithEmailAndPassword({ email, password }));
   }
 
   render() {
