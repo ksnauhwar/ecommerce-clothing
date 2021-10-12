@@ -20,7 +20,7 @@ export const googleProvider = new firebase.auth.GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: "select_account" });
 export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
-export const getLoggeInUser = () => {
+export const getLoggedInUser = () => {
   return new Promise((resolve, reject) => {
     let unsubscribe = auth.onAuthStateChanged((userAuth) => {
       unsubscribe();

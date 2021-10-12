@@ -13,6 +13,8 @@ function userReducer(state = INITIAL_STATE, action) {
         currentUser: action.payload,
       };
     }
+    case UserActionTypes.SIGN_OUT_FAILURE:
+    case UserActionTypes.SIGN_UP_FAILURE:
     case UserActionTypes.SIGN_IN_FAILURE: {
       return {
         ...state,

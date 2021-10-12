@@ -5,9 +5,16 @@ import {
   auth,
   createUserAuthDocument,
   googleProvider,
-  getLoggeInUser,
+  getLoggedInUser,
 } from "../../firebase/firebase.util";
-import { signInSuccess, signInFailure, signOutSuccess } from "./user.actions";
+import {
+  signInSuccess,
+  signInFailure,
+  signOutSuccess,
+  signOutFailure,
+  signUpFailure,
+  signUpSuccess,
+} from "./user.actions";
 
 function* signInWithGoogle() {
   try {
@@ -22,8 +29,8 @@ function* signInWithGoogleStart() {
   yield takeLatest(UserActionTypes.GOOGLE_SIGN_IN_START, signInWithGoogle);
 }
 
-function* saveUserToRedux(user) {
-  var userRef = yield call(createUserAuthDocument, user);
+function* saveUserToRedux(user, additionalData) {
+  var userRef = yield call(createUserAuthDocument, user, additionalData);
   var snapshot = yield userRef.get();
   yield put(
     signInSuccess({
@@ -38,7 +45,9 @@ function* signOut() {
     try {
       yield auth.signOut();
       yield put(signOutSuccess());
-    } catch (error) {}
+    } catch (error) {
+      yield put(signOutFailure(error));
+    }
   });
 }
 
@@ -58,17 +67,45 @@ function* signInWithEmailAndPasswordStart() {
   );
 }
 
-function* persistLoginSession() {
-  const userAuth = yield getLoggeInUser();
-  if (!userAuth) {
-    return;
+function* createUserCredentials({ payload: { displayName, email, password } }) {
+  try {
+    const { user } = yield auth.createUserWithEmailAndPassword(email, password);
+    yield put(signUpSuccess(user, { displayName }));
+  } catch (error) {
+    yield put(signUpFailure(error));
   }
+}
 
-  yield saveUserToRedux(userAuth);
+function* persistLoginSession() {
+  try {
+    const user = yield getLoggedInUser();
+    if (!user) {
+      return;
+    }
+    yield saveUserToRedux(user);
+  } catch (error) {
+    yield put(signInFailure(error));
+  }
+}
+
+function* createUser({ payload: { user, additionalData } }) {
+  try {
+    yield saveUserToRedux(user, additionalData);
+  } catch (error) {
+    yield put(signUpFailure(error));
+  }
 }
 
 function* persistUserSession() {
   yield takeLatest(UserActionTypes.PERSIST_USER_SESSION, persistLoginSession);
+}
+
+function* onSignUpSuccess() {
+  yield takeLatest(UserActionTypes.SIGN_UP_SUCCESS, createUser);
+}
+
+function* onSignUpStart() {
+  yield takeLatest(UserActionTypes.SIGN_UP_START, createUserCredentials);
 }
 
 export default function* userSagas() {
@@ -77,5 +114,7 @@ export default function* userSagas() {
     call(signOut),
     call(signInWithEmailAndPasswordStart),
     call(persistUserSession),
+    call(onSignUpStart),
+    call(onSignUpSuccess),
   ]);
 }
