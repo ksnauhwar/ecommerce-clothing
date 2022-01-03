@@ -1,57 +1,52 @@
-import React from "react";
-import { connect } from "react-redux";
-
+import React, { useEffect, lazy, Suspense } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
-import HomePage from "./pages/homepage/homepage.component";
-import ShopPage from "./pages/shoppage/shopPage.component";
-import Header from "./components/header/header.component";
-import SignInSignUpPage from "./pages/sign-in-sign-up-page/sign-in-sign-up.component";
-import CheckoutPage from "./pages/checkoutpage/checkoutpage.component";
-import { persistUserSession } from "./redux/user/user.actions";
 
+import Header from "./components/header/header.component";
+import ErrorBoundary from "./components/error-boundary/error-boundary.component";
+import { persistUserSession } from "./redux/user/user.actions";
+import { selectCurrentUser } from "./redux/user/user.selector";
+import Spinner from "./components/spinner/spinner.component";
 import "./App.css";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const HomePage = lazy(() => import("./pages/homepage/homepage.component"));
+const ShopPage = lazy(() => import("./pages/shoppage/shopPage.component"));
+const CheckoutPage = lazy(() =>
+  import("./pages/checkoutpage/checkoutpage.component")
+);
+const SignInSignUpPage = lazy(() =>
+  import("./pages/sign-in-sign-up-page/sign-in-sign-up.component")
+);
 
-  componentDidMount() {
-    const { persistUserSession } = this.props;
-    persistUserSession();
-  }
+const App = (props) => {
+  const currentUser = useSelector(selectCurrentUser);
+  const dispatch = useDispatch();
 
-  render() {
-    return (
-      <div className="App">
-        <Header />
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/shop" component={ShopPage} />
-          <Route exact path="/checkout" component={CheckoutPage} />
-          <Route
-            path="/signIn"
-            exact
-            render={() => {
-              return this.props.currentUser ? (
-                <Redirect to="/" />
-              ) : (
-                <SignInSignUpPage />
-              );
-            }}
-          />
-        </Switch>
-      </div>
-    );
-  }
-}
+  useEffect(() => {
+    dispatch(persistUserSession());
+  }, []);
 
-const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser,
-});
+  return (
+    <div className="App">
+      <Header />
+      <ErrorBoundary>
+        <Suspense fallback={<Spinner></Spinner>}>
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route path="/shop" component={ShopPage} />
+            <Route exact path="/checkout" component={CheckoutPage} />
+            <Route
+              path="/signIn"
+              exact
+              render={() => {
+                return currentUser ? <Redirect to="/" /> : <SignInSignUpPage />;
+              }}
+            />
+          </Switch>
+        </Suspense>
+      </ErrorBoundary>
+    </div>
+  );
+};
 
-const mapDispatchToProps = (dispatch) => ({
-  persistUserSession: () => dispatch(persistUserSession()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

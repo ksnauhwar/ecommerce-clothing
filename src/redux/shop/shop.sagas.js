@@ -18,7 +18,7 @@ function* fetchCollectionsAsync() {
   }
 }
 
-function* fetchCollections() {
+function* onFetchCollections() {
   yield takeLatest(
     SHOP_ACTION_TYPES.FETCH_COLLECTIONS_START,
     fetchCollectionsAsync
@@ -26,5 +26,5 @@ function* fetchCollections() {
 }
 
 export default function* shopSagas() {
-  yield all([call(fetchCollections)]);
+  yield all([call(onFetchCollections)]);
 }

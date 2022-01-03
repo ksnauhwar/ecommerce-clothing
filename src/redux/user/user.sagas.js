@@ -25,10 +25,6 @@ function* signInWithGoogle() {
   }
 }
 
-function* signInWithGoogleStart() {
-  yield takeLatest(UserActionTypes.GOOGLE_SIGN_IN_START, signInWithGoogle);
-}
-
 function* saveUserToRedux(user, additionalData) {
   var userRef = yield call(createUserAuthDocument, user, additionalData);
   var snapshot = yield userRef.get();
@@ -41,14 +37,16 @@ function* saveUserToRedux(user, additionalData) {
 }
 
 function* signOut() {
-  yield takeLatest(UserActionTypes.SIGN_OUT, function* () {
-    try {
-      yield auth.signOut();
-      yield put(signOutSuccess());
-    } catch (error) {
-      yield put(signOutFailure(error));
-    }
-  });
+  try {
+    yield auth.signOut();
+    yield put(signOutSuccess());
+  } catch (error) {
+    yield put(signOutFailure(error));
+  }
+}
+
+function* onSignOut() {
+  yield takeLatest(UserActionTypes.SIGN_OUT, signOut);
 }
 
 function* signInWithEmailAndPassword({ payload: { email, password } }) {
@@ -58,13 +56,6 @@ function* signInWithEmailAndPassword({ payload: { email, password } }) {
   } catch (error) {
     yield put(signInFailure(error));
   }
-}
-
-function* signInWithEmailAndPasswordStart() {
-  yield takeLatest(
-    UserActionTypes.EMAIL_SIGN_IN_START,
-    signInWithEmailAndPassword
-  );
 }
 
 function* createUserCredentials({ payload: { displayName, email, password } }) {
@@ -96,7 +87,18 @@ function* createUser({ payload: { user, additionalData } }) {
   }
 }
 
-function* persistUserSession() {
+function* onSignInWithGoogleStart() {
+  yield takeLatest(UserActionTypes.GOOGLE_SIGN_IN_START, signInWithGoogle);
+}
+
+function* onSignInWithEmailAndPasswordStart() {
+  yield takeLatest(
+    UserActionTypes.EMAIL_SIGN_IN_START,
+    signInWithEmailAndPassword
+  );
+}
+
+function* onPersistUserSession() {
   yield takeLatest(UserActionTypes.PERSIST_USER_SESSION, persistLoginSession);
 }
 
@@ -110,10 +112,10 @@ function* onSignUpStart() {
 
 export default function* userSagas() {
   yield all([
-    call(signInWithGoogleStart),
-    call(signOut),
-    call(signInWithEmailAndPasswordStart),
-    call(persistUserSession),
+    call(onSignInWithGoogleStart),
+    call(onSignOut),
+    call(onSignInWithEmailAndPasswordStart),
+    call(onPersistUserSession),
     call(onSignUpStart),
     call(onSignUpSuccess),
   ]);

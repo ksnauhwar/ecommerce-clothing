@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import CustomButton from "../custom-button/custom-button.component";
@@ -9,72 +9,60 @@ import {
 } from "../../redux/user/user.actions";
 import "./sign-in.styles.scss";
 
-class SignIn extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+const SignIn = ({ dispatch }) => {
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
 
-  handleChange(event) {
+  const { email, password } = credentials;
+
+  function handleChange(event) {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    setCredentials({ ...credentials, ...{ [name]: value } });
   }
 
-  async handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
-    const { email, password } = this.state;
-    const { dispatch } = this.props;
+    const { email, password } = credentials;
     dispatch(signInWithEmailAndPassword({ email, password }));
   }
 
-  render() {
-    const { dispatch } = this.props;
-    return (
-      <div className="sign-in">
-        <h2 className="heading-secondary">I already have an account</h2>
-        <h4 className="heading-tertiary">
-          Sign In with your Email and Password
-        </h4>
-        <form className="form" onSubmit={this.handleSubmit}>
-          <FormInput
-            type="email"
-            name="email"
-            value={this.state.email}
-            required
-            handleChange={this.handleChange}
-            placeholder="Email Adress"
-            autoComplete="off"
-            label="Email Address"
-          />
-          <FormInput
-            type="password"
-            name="password"
-            value={this.state.password}
-            required
-            handleChange={this.handleChange}
-            placeholder="Password"
-            label="Password"
-          />
+  return (
+    <div className="sign-in">
+      <h2 className="heading-secondary">I already have an account</h2>
+      <h4 className="heading-tertiary">Sign In with your Email and Password</h4>
+      <form className="form" onSubmit={handleSubmit}>
+        <FormInput
+          type="email"
+          name="email"
+          value={email}
+          required
+          handleChange={handleChange}
+          placeholder="Email Adress"
+          autoComplete="off"
+          label="Email Address"
+        />
+        <FormInput
+          type="password"
+          name="password"
+          value={password}
+          required
+          handleChange={handleChange}
+          placeholder="Password"
+          label="Password"
+        />
 
-          <div className="buttons">
-            <CustomButton type="submit">Sign In</CustomButton>
-            <CustomButton
-              type="button"
-              onClick={() => dispatch(googleSignInStart())}
-              isGoogleSignIn
-            >
-              Sign In With Google
-            </CustomButton>
-          </div>
-        </form>
-      </div>
-    );
-  }
-}
+        <div className="buttons">
+          <CustomButton type="submit">Sign In</CustomButton>
+          <CustomButton
+            type="button"
+            onClick={() => dispatch(googleSignInStart())}
+            isGoogleSignIn
+          >
+            Sign In With Google
+          </CustomButton>
+        </div>
+      </form>
+    </div>
+  );
+};
 
 export default connect(null)(SignIn);
